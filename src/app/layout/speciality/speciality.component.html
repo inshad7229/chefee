@@ -1,0 +1,80 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Speciality'" [icon]="'fa-edit'"></app-page-header>
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" [formGroup]="verifiactionForm">
+               <div class="form-group">
+                    <label>Category Name</label>
+                    <select class="form-control"  [formControl]="verifiactionForm.controls['category_id']" [(ngModel)]="datamodel.category_id" (change)="oncategoryChange(datamodel.category_id)">
+                        <option disabled="">-----Choose Category-----</option>
+                        <option *ngFor="let cat of categoryList"  [value]="cat.id" (click)="onChangeCat(cat)">{{cat.name}}</option>
+                    </select>
+                     <p  *ngIf="verifiactionForm.controls['category_id'].hasError('required') && verifiactionForm.controls['category_id'].touched">
+                     Category Name is <strong>required</strong>
+                    </p>
+                </div>
+                 <div class="form-group" *ngIf="selectedCateory">
+                    <label>Sub Category Name</label>
+                    <select class="form-control"  [formControl]="verifiactionForm.controls['subcategory_id']" [(ngModel)]="datamodel.subcategory_id" >
+                        <option disabled="">-----Choose Sub Category-----</option>
+                        <option *ngFor="let cat of selectedCateory.subCategory"  [value]="cat.id" (click)="onChangeSubCat(cat)">{{cat.name}}</option>
+                    </select>
+                     <p  *ngIf="verifiactionForm.controls['subcategory_id'].hasError('required') && verifiactionForm.controls['subcategory_id'].touched">
+                     Sub Category Name is <strong>required</strong>
+                    </p>
+                </div>
+                <div class="form-group has-success">
+                    <label class="form-control-label" for="inputSuccess">Speciality Name</label>
+                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['speciality']" [(ngModel)]="datamodel.name">
+                    <p  *ngIf="verifiactionForm.controls['speciality'].hasError('required') && verifiactionForm.controls['speciality'].touched">
+                     SubCategory Name is <strong>required</strong>
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['speciality'].hasError('pattern')">
+                               Please enter valid SubCategory Name !!
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['speciality'].hasError('maxlength')">
+                               max length is 100
+                    </p>
+                </div>
+                    <button type="submit" class="btn btn-secondary buttoncustom" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
+                     <button type="reset" class="btn btn-secondary buttoncustom" (click)="onReset()">Reset Button</button>
+            </form>
+        </div>
+    </div>
+    <div class="row rowcustome" *ngIf="specialityList">
+      <div class="col-lg-12">
+                <div class="card-header">Category List</div>
+                <table class="card-body table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Category Name</th>
+                        <th>SubCategory Name</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let subcat of specialityList;let i=index"  class="table-{{getClass(i)}}">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{subcat.category.name}}</td>
+                        <td>{{subcat.subcategory.name}}</td>
+                        <td>{{subcat.name}}</td>
+                        <td><span class="cus-switch">
+                                        <label class="switch m-b-0">
+                                            <input type="checkbox" [(ngModel)]="subcat.status" 
+                                            [ngModelOptions]="{standalone: true}" (change)="onChange(subcat)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </span></td>
+                        <td>
+                          <a  href="javascript:void(0)" (click)="onedit(subcat,i)" class="fa fa-edit fa-lg user-button" ></a>
+                                <a  href="javascript:void(0)" (click)="opendelete(subcat)" class="fa fa-trash fa-lg user-button" ></a>
+                           </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>

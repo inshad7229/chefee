@@ -1,0 +1,56 @@
+<div [@routerTransition]>
+    <app-page-header [heading]="'Degree'" [icon]="'fa-edit'"></app-page-header>
+    <div class="row">
+        <div class="col-lg-12">
+            <form role="form" [formGroup]="verifiactionForm">
+                <div class="form-group has-success">
+                    <label class="form-control-label" for="inputSuccess">Degree Name</label>
+                    <input type="text" class="form-control form-control-success" id="inputSuccess" [formControl]="verifiactionForm.controls['degreeName']" [(ngModel)]="datamodel.name">
+                    <p  *ngIf="verifiactionForm.controls['degreeName'].hasError('required') && verifiactionForm.controls['degreeName'].touched">
+                     Degree Name is <strong>required</strong>
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['degreeName'].hasError('pattern')">
+                               Please enter valid Degree Name !!
+                    </p>
+                    <p  *ngIf="verifiactionForm.controls['degreeName'].hasError('maxlength')">
+                               max length is 100
+                    </p>
+                </div>
+                    <button type="submit" class="btn btn-secondary buttoncustom" [disabled]="!verifiactionForm.valid" (click)="onSubmit()">Submit</button>
+                     <button type="reset" class="btn btn-secondary buttoncustom" (click)="onReset()">Reset Button</button>
+            </form>
+        </div>
+    </div>
+    <div class="row rowcustome" *ngIf="degreeList">
+    	<div class="col-lg-12">
+                <div class="card-header">Degree List</div>
+                <table class="card-body table">
+                    <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let cat of degreeList;let i=index"  class="table-{{getClass(i)}}">
+                        <th scope="row">{{i+1}}</th>
+                        <td>{{cat.name}}</td>
+                        <td><span class="cus-switch">
+                                        <label class="switch m-b-0">
+                                            <input type="checkbox" [(ngModel)]="cat.status" 
+                                            [ngModelOptions]="{standalone: true}" (change)="onChange(cat)">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </span></td>
+                        <td>
+                        	<a  href="javascript:void(0)" (click)="onedit(cat)" class="fa fa-edit fa-lg user-button" ></a>
+                                <a  href="javascript:void(0)" (click)="opendelete(cat)" class="fa fa-trash fa-lg user-button" ></a>
+                           </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+    </div>
+</div>
