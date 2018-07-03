@@ -216,6 +216,27 @@ export class AdminService {
         
     );
   }
+
+
+  getHtmlContent(type): Observable<any> {
+    const url = `${ENV.mainApi}htmlContentApp/${type}`;
+    return this.http.get<any>(url,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   usersChefAdmin Test`)),
+          catchError(this.handleError('get   usersChefAdmin Test', []))
+        
+    );
+  }
+
+  postHtmlContent(body): Observable<any> {
+    const url = `${ENV.mainApi}htmlContentAdmin`;
+    return this.http.post<any>(url,body,httpOptions)
+          .pipe(
+          tap(heroes => this.log(`get   usersChefAdmin Test`)),
+          catchError(this.handleError('get   usersChefAdmin Test', []))
+        
+    );
+  }
   /**
    * Handle Http operation that failed.
    * Let the app continue.
